@@ -1462,23 +1462,59 @@ while True:
 			################ 미예약 보스타임 출력 ################ 
 
 			if message.content == command[9]:
-				temp_bossTime2 = []
+				tmp_boss_information = []
+				tmp_cnt = 0
+				tmp_boss_information.append('')
+				
 				for i in range(bossNum):
-					if bossTimeString[i] == '99:99:99' :
-						temp_bossTime2.append(bossData[i][0])
+					if bossTimeString[i] == '99:99:99' and bossMungFlag[i] != True :
+						if len(tmp_boss_information[tmp_cnt]) > 1800 :
+							tmp_boss_information.append('')
+							tmp_cnt += 1
+						tmp_boss_information[tmp_cnt] = tmp_boss_information[tmp_cnt] + bossData[i][0] + ','
 
-				if len(temp_bossTime2) != 0:
-					temp_bossTimeSTR1 = ','.join(map(str, temp_bossTime2))
-					temp_bossTimeSTR1 = '```fix\n' + temp_bossTimeSTR1 + '\n```'
+				if len(tmp_boss_information) == 1:
+					if len(tmp_boss_information[0]) != 0:
+						tmp_boss_information[0] = "```fix\n" + tmp_boss_information[0][:len(tmp_boss_information[0])-1] + "\n```"
+					else :
+						tmp_boss_information[0] = '``` ```'
+
+					embed = discord.Embed(
+							title = "----- 미예약 보스 -----",
+							description= tmp_boss_information[0],
+							color=0x0000ff
+							)
+					await client.get_channel(channel).send( embed=embed, tts=False)
 				else:
-					temp_bossTimeSTR1 = '``` ```'
-						
-				embed = discord.Embed(
-						title = "----- 미예약보스 -----",
-						description= temp_bossTimeSTR1,
+					if len(tmp_boss_information[0]) != 0:
+						if len(tmp_boss_information) == 1 :
+							tmp_boss_information[0] = "```fix\n" + tmp_boss_information[0][:len(tmp_boss_information[0])-1] + "\n```"
+						else:
+							tmp_boss_information[0] = "```fix\n" + tmp_boss_information[0] + "\n```"
+					else :
+						tmp_boss_information[0] = '``` ```'
+
+					embed = discord.Embed(
+						title = "----- 미예약 보스 -----",
+						description= tmp_boss_information[0],
 						color=0x0000ff
 						)
-				await client.get_channel(channel).send( embed=embed, tts=False)
+					await client.get_channel(channel).send( embed=embed, tts=False)
+					for i in range(len(tmp_boss_information)-1):
+						if len(tmp_boss_information[i+1]) != 0:
+							if i == len(tmp_boss_information)-2:
+								tmp_boss_information[i+1] = "```fix\n" + tmp_boss_information[i+1][:len(tmp_boss_information[i+1])-1] + "\n```"
+							else:
+								tmp_boss_information[i+1] = "```fix\n" + tmp_boss_information[i+1] + "\n```"							
+						else :
+							tmp_boss_information[i+1] = '``` ```'
+
+						embed = discord.Embed(
+								title = '',
+								description= tmp_boss_information[i+1],
+								color=0x0000ff
+								)
+						await client.get_channel(channel).send( embed=embed, tts=False)
 
 			################ 음성파일 생성 후 재생 ################ 			
 				
@@ -1841,7 +1877,7 @@ while True:
 						boss_information[0] = '``` ```'
 
 					if len(tmp_boss_information[0]) != 0:
-						tmp_boss_information[0] = "```fix\n" + tmp_boss_information[0] + "\n```"
+						tmp_boss_information[0] = "```fix\n" + tmp_boss_information[0][:len(tmp_boss_information[0])-1] + "\n```"
 					else :
 						tmp_boss_information[0] = '``` ```'
 
@@ -1884,7 +1920,10 @@ while True:
 						await client.get_channel(channel).send( embed=embed, tts=False)
 					###########################미예약보스출력
 					if len(tmp_boss_information[0]) != 0:
-						tmp_boss_information[0] = "```fix\n" + tmp_boss_information[0] + "\n```"
+						if len(tmp_boss_information) == 1 :
+							tmp_boss_information[0] = "```fix\n" + tmp_boss_information[0][:len(tmp_boss_information[0])-1] + "\n```"
+						else:
+							tmp_boss_information[0] = "```fix\n" + tmp_boss_information[0] + "\n```"
 					else :
 						tmp_boss_information[0] = '``` ```'
 
@@ -1896,7 +1935,10 @@ while True:
 					await client.get_channel(channel).send( embed=embed, tts=False)
 					for i in range(len(tmp_boss_information)-1):
 						if len(tmp_boss_information[i+1]) != 0:
-							tmp_boss_information[i+1] = "```fix\n" + tmp_boss_information[i+1] + "\n```"
+							if i == len(tmp_boss_information)-2:
+								tmp_boss_information[i+1] = "```fix\n" + tmp_boss_information[i+1][:len(tmp_boss_information[i+1])-1] + "\n```"
+							else:
+								tmp_boss_information[i+1] = "```fix\n" + tmp_boss_information[i+1] + "\n```"							
 						else :
 							tmp_boss_information[i+1] = '``` ```'
 
@@ -2049,7 +2091,10 @@ while True:
 
 				###########################미예약보스출력
 				if len(tmp_boss_information[0]) != 0:
-					tmp_boss_information[0] = "```fix\n" + tmp_boss_information[0] + "\n```"
+					if len(tmp_boss_information) == 1 :
+						tmp_boss_information[0] = "```fix\n" + tmp_boss_information[0][:len(tmp_boss_information[0])-1] + "\n```"
+					else:
+						tmp_boss_information[0] = "```fix\n" + tmp_boss_information[0] + "\n```"
 				else :
 					tmp_boss_information[0] = '``` ```'
 
@@ -2061,7 +2106,10 @@ while True:
 				await client.get_channel(channel).send( embed=embed, tts=False)
 				for i in range(len(tmp_boss_information)-1):
 					if len(tmp_boss_information[i+1]) != 0:
-						tmp_boss_information[i+1] = "```fix\n" + tmp_boss_information[i+1] + "\n```"
+						if i == len(tmp_boss_information)-2:
+							tmp_boss_information[i+1] = "```fix\n" + tmp_boss_information[i+1][:len(tmp_boss_information[i+1])-1] + "\n```"
+						else:
+							tmp_boss_information[i+1] = "```fix\n" + tmp_boss_information[i+1] + "\n```"
 					else :
 						tmp_boss_information[i+1] = '``` ```'
 
